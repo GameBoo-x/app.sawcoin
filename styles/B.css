@@ -4,7 +4,7 @@
     align-items: center; /* محاذاة المحتوى عموديًا */
     justify-content: space-between; /* توزيع العناصر بالتساوي */
     width: 42%; /* عرض العنصر */
-    height: 67px;
+    height: 60px;
     padding: 10px;
     margin: 5px auto;
     background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
@@ -27,17 +27,17 @@
 }
 
  .boost-item-free img { 
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     box-shadow: 0 0 3px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.3), 0 0 9px rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     transition: box-shadow 0.3s ease;
  }
 
-.boost-item-free  boost-title {
+.boosts-title {
     margin-left: 8px;
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.5;
 }  
 
@@ -45,7 +45,7 @@
     text-align: center;
     font-size: 12px;
     margin-bottom: 0;
-    margin-left: 5px;
+    margin-top: 5px;
     color: #808080;
 }
 
