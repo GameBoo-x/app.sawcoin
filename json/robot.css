@@ -1,5 +1,5 @@
 #robotContainer {
-    position: relative;
+    /*position: relative;*/
     display: flex;
     flex-direction: column; /* ترتيب العناصر عموديًا */
     justify-content: space-between; /* ترتيب العناصر في الأعلى */
@@ -13,7 +13,7 @@
     font-family: 'Arial', sans-serif;
     margin: 10px auto;
     width: 90%;
-    height: 150px; /* اجعل الارتفاع يتناسب مع المحتوى */
+    height: 160px; /* اجعل الارتفاع يتناسب مع المحتوى */
 }
 
 #robotContainer img {
@@ -28,7 +28,7 @@
 #robotContainer .robot-right {
     display: flex;
     flex-direction: column; /* ترتيب العناصر عموديًا */
-    justify-content: flex-end; 
+    justify-content: flex-start; 
     text-align: center;
     margin-bottom: 10px; /* إضافة مسافة بينه وبين العناصر الأخرى */
 }
