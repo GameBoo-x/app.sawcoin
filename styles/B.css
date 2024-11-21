@@ -3,8 +3,8 @@
     flex-direction: row; /* ترتيب المحتوى داخل العنصر أفقيًا */
     align-items: center; /* محاذاة المحتوى عموديًا */
     justify-content: space-between; /* توزيع العناصر بالتساوي */
-    width: 42.50%; /* عرض العنصر */
-    height: 65px;
+    width: 42%; /* عرض العنصر */
+    height: 67px;
     padding: 10px;
     margin: 5px auto;
     background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
@@ -191,8 +191,8 @@
     flex-direction: row; /* ترتيب المحتوى داخل العنصر أفقيًا */
     align-items: center; /* محاذاة المحتوى عموديًا */
     justify-content: space-between; /* توزيع العناصر بالتساوي */
-    width: 90%; /* عرض العنصر */
-    height: 75px;
+    width: 93%; /* عرض العنصر */
+    height: 70px;
     padding: 10px;
     margin: 10px auto;
     background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
