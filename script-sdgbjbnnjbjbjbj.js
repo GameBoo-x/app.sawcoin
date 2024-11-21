@@ -1049,10 +1049,10 @@ async function loadFriendsList() {
     }
 
     try {
-        // جلب قائمة الأصدقاء الذين تمت دعوتهم بواسطة المستخدم الحالي فقط
+        // جلب قائمة الأصدقاء الذين تمت دعوتهم بواسطة المستخدم الحالي فقط بالإضافة إلى الرصيد
         const { data, error } = await supabase
             .from('users')
-            .select('invites')
+            .select('invites, balance') // جلب الرصيد مع الدعوات
             .eq('telegram_id', userId)
             .single();
 
@@ -1073,17 +1073,30 @@ async function loadFriendsList() {
                 // إنشاء عنصر الصورة الافتراضية
                 const img = document.createElement('img');
                 img.src = 'i/Uselist.jpg'; // رابط الصورة الافتراضية
-                img.alt = `${friend}'s`;
+                img.alt = `${friend.name}'s Avatar`; // تأكد من أن البيانات تحتوي على اسم الصديق
                 img.classList.add('friend-avatar');
 
                 // إضافة اسم الصديق
                 const span = document.createElement('span');
                 span.classList.add('friend-name');
-                span.textContent = friend;
+                span.textContent = friend.name; // تأكد من أن البيانات تحتوي على اسم الصديق
 
-                // إضافة الصورة والاسم إلى الـ li
-                li.appendChild(img);
-                li.appendChild(span);
+                // إنشاء عنصر لعرض الرصيد
+                const balanceSpan = document.createElement('span');
+                balanceSpan.classList.add('friend-balance');
+                balanceSpan.textContent = `${friend.balance} XOcoins`; // عرض الرصيد (تأكد من أنه تم تضمينه في البيانات)
+
+                // إنشاء div يحتوي على الصورة واسم الصديق
+                const friendInfoDiv = document.createElement('div');
+                friendInfoDiv.classList.add('friend-info');
+                friendInfoDiv.appendChild(img);
+                friendInfoDiv.appendChild(span);
+
+                // إضافة الصورة واسم الصديق إلى الـ li
+                li.appendChild(friendInfoDiv);
+
+                // إضافة الرصيد على اليمين
+                li.appendChild(balanceSpan);
 
                 // إضافة الصديق إلى القائمة
                 uiElements.friendsListDisplay.appendChild(li);
@@ -1107,6 +1120,7 @@ async function loadFriendsList() {
         uiElements.friendsListDisplay.innerHTML = `<li>Error: Unexpected issue occurred while loading friends.</li>`;
     }
 }
+
 
 
 // نسخ رابط الدعوة
