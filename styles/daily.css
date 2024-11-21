@@ -11,18 +11,19 @@
 
 .daily-itemm {
   display: flex;
-  align-items: center; /* محاذاة العناصر عموديًا */
-  justify-content: flex-start; /* المحاذاة على اليسار */
-  gap: 10px; /* إضافة مسافة بين الصورة والنص */
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
-  
-  border-radius: 10px;
-  border-bottom: 0.50px solid #343434;
-  background-color: rgba(0, 0, 0, 0.9);
-  width: 90%; 
-  height: 60px;
+    flex-direction: row; /* ترتيب المحتوى داخل العنصر أفقيًا */
+    align-items: center; /* محاذاة المحتوى عموديًا */
+    justify-content: space-between; /* توزيع العناصر بالتساوي */
+    width: 90%; /* عرض العنصر */
+    height: 65px;
+    padding: 10px;
+    margin: 10px auto;
+    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
+    backdrop-filter: blur(5px); /* تمويه الخلفية */
+    border-radius: 10px; /* زوايا مستديرة */
+    border: 0.5px solid #343434; /* حدود العنصر */
+    box-sizing: border-box; /* لحساب الحواف ضمن الأبعاد */
+    overflow: hidden;
 }
 
 .daily-imagee {
