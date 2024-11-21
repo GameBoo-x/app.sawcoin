@@ -17,10 +17,9 @@
 }
 
 #robotContainer img {
-    text-align: center;
-    margin-bottom: 10px; /* إضافة مسافة بين الصورة والعناصر الأخرى */
-    width: 40px;
-    height: 40px;
+   /* margin-bottom: 10px;*/ /* إضافة مسافة بين الصورة والعناصر الأخرى */
+    width: 50px;
+    height: 50px;
     border-radius: 10px;
     box-shadow: 0 0 3px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.3), 0 0 9px rgba(255, 255, 255, 0.2);
     transition: box-shadow 0.3s ease;
@@ -37,7 +36,7 @@
 }
 
 #robotContainer button {
-    width: 60%; /* زيادة العرض ليكون متناسبًا مع باقي المحتوى */
+    width: 50%; /* زيادة العرض ليكون متناسبًا مع باقي المحتوى */
     height: 30px;
     background-color: rgba(0, 0, 0, 0.7);
     font-weight: bold;
@@ -72,7 +71,7 @@
 .robot-meta {
     display: flex;
     flex-direction: row; /* ترتيب الليفيل والتكلفة أفقيًا */
-    justify-content: space-between; /* ترتيب العناصر عموديًا */
+    justify-content: column; /* ترتيب العناصر عموديًا */
     color: #808080;
     font-size: 0.7em;
     margin-top: 10px;
