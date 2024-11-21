@@ -547,15 +547,16 @@ img {
 .friends-list {
     margin: 10px auto;
     /*margin-top: 10px;*/
-    border: 0.50px solid #343434; 
+   /* border: 0.50px solid #343434;*/
     padding: 0;
     list-style: none;
-    color: #aaaaaa;
+    color: #808080;
     width: 87%; /* لجعل العرض 80% */
     padding: 8px; 
     font-size: 16px; 
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px); /* تأثير الضبابية */
+    background-color: rgba(255, 255, 255, 0.0008);
+   /* background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);*/ /* تأثير الضبابية */
     border-radius: 10px;      
     display: block;
 }
