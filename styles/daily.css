@@ -10,7 +10,7 @@
 }
 
 .daily-itemm {
-  display: flex;
+    display: flex;
     flex-direction: row; /* ترتيب المحتوى داخل العنصر أفقيًا */
     align-items: center; /* محاذاة المحتوى عموديًا */
     justify-content: space-between; /* توزيع العناصر بالتساوي */
@@ -29,20 +29,19 @@
 .daily-imagee {
   width: 40px; /* يمكنك تغيير الحجم حسب الحاجة */
   height: 40px;
+  border-radius: 10px; /* زوايا مستديرة */
+  border: 0.5px solid #343434; /* حدود العنصر */
 }
 
 .descriptionn {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  
+  font-size: 14px;
+  text-align: center;
 }
 
 .Daily-meta {
   display: flex;
   justify-content: flex-end; /* محاذاة السهم إلى اليمين */
-  margin-top: 5px;  
-  margin-left: 15px;  
+  margin-right: 5px;  
 }
 
 #Dailyaew {
