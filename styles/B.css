@@ -35,6 +35,13 @@
     transition: box-shadow 0.3s ease;
  }
 
+.boost-item-free  boost-title {
+    margin-left: 8px;
+    /*margin: 0;*/ /* إزالة المسافات بين النصوص */
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+}  
 
 
 .bos-image {
