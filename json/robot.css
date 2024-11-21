@@ -1,7 +1,7 @@
 #robotContainer {
     position: relative;
     display: flex;
-    flex-direction: center;
+    /*flex-direction: center;*/
     justify-content: column; /* توزيع المساحة بين العناصر */
     background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
     backdrop-filter: blur(5px); /* تمويه الخلفية */
