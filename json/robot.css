@@ -26,7 +26,9 @@
 }
 
 #robotContainer .robot-right {
-    flex: none; /* إزالة استخدام flex من هذا العنصر */
+    display: flex;
+    flex-direction: column; /* ترتيب العناصر عموديًا */
+    justify-content: flex-end; 
     text-align: center;
     margin-bottom: 10px; /* إضافة مسافة بينه وبين العناصر الأخرى */
 }
