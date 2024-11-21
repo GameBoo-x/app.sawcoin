@@ -13,7 +13,7 @@
     font-family: 'Arial', sans-serif;
     margin: 10px auto;
     width: 90%;
-    height: auto; /* اجعل الارتفاع يتناسب مع المحتوى */
+    height: 150px; /* اجعل الارتفاع يتناسب مع المحتوى */
 }
 
 #robotContainer img {
