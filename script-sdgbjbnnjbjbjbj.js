@@ -1105,7 +1105,7 @@ async function loadFriendsList() {
                     // إنشاء عنصر لعرض الرصيد
                     const balanceSpan = document.createElement('span');
                     balanceSpan.classList.add('friend-balance');
-                    balanceSpan.textContent = `${friend.balance} SP`; // عرض الرصيد
+                    balanceSpan.textContent = `${formatNumber(friend.balance)} SP`; // عرض الرصيد
 
                     // إنشاء div يحتوي على الصورة واسم الصديق
                     const friendInfoDiv = document.createElement('div');
