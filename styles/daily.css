@@ -33,11 +33,6 @@
   border: 0.5px solid #343434; /* حدود العنصر */
 }
 
-.descriptionn {
-  font-size: 14px;
-  text-align: center;
-}
-
 .Daily-meta {
   display: flex;
   justify-content: flex-end; /* محاذاة السهم إلى اليمين */
@@ -46,14 +41,14 @@
 
 #Dailyaew {
   text-align: right;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .Daily-titlee {
    font-size: 12px;
    text-align: center;
    color: #808080;
-   margin-bottom: 15px;  
+   margin-bottom: 10px;  
 }
 
 
