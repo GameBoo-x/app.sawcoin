@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column; /* ترتيب العناصر عموديًا */
-    justify-content: flex-start; /* ترتيب العناصر في الأعلى */
+    justify-content: space-between; /* ترتيب العناصر في الأعلى */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
     border-radius: 10px;
