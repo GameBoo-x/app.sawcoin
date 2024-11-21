@@ -79,7 +79,8 @@
     justify-content: space-between; /* توزيع العناصر بالتساوي */
     color: #808080;
     font-size: 0.7em; /* حجم النص أصغر قليلاً */
-    margin-top: 5px;
+    margin-top: 1px;
+    margin-bottom: 10px; 
 }
 
    /* font-size: 0.7em;
@@ -91,7 +92,7 @@
 #text-robot {
     color: #fff; /* لون النص */
     font-size: 14px; /* حجم الخط */
-    margin-bottom: 17px; 
+    margin-bottom: 18px; 
     margin-top: 5px;
     text-align: center;
 }
