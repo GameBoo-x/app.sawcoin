@@ -1049,10 +1049,10 @@ async function loadFriendsList() {
     }
 
     try {
-        // جلب قائمة الأصدقاء الذين تمت دعوتهم بواسطة المستخدم الحالي فقط بالإضافة إلى الرصيد
+        // جلب قائمة الأصدقاء من قاعدة البيانات
         const { data, error } = await supabase
             .from('users')
-            .select('invites, balance') // جلب الرصيد مع الدعوات
+            .select('invites') // عمود الدعوات الذي يحتوي على قائمة المعرفات
             .eq('telegram_id', userId)
             .single();
 
@@ -1062,44 +1062,66 @@ async function loadFriendsList() {
             return;
         }
 
-        // التأكد من أن الدعوات تخص المستخدم الحالي فقط
-        if (data && data.invites && data.invites.length > 0) {
+        // التأكد من أن الدعوات تحتوي على معرّفات الأصدقاء
+        if (data && data.invites && Array.isArray(data.invites) && data.invites.length > 0) {
             uiElements.friendsListDisplay.innerHTML = ''; // مسح القائمة القديمة
 
-            data.invites.forEach(friend => {
-                const li = document.createElement('li');
-                li.classList.add('friend-item'); // إضافة الـ CSS
+            // جلب بيانات الأصدقاء بما في ذلك الرصيد لكل معرف
+            const friendsPromises = data.invites.map(async (friendId) => {
+                const { data: friendData, error: friendError } = await supabase
+                    .from('users')
+                    .select('telegram_id, balance')
+                    .eq('telegram_id', friendId)
+                    .single();
 
-                // إنشاء عنصر الصورة الافتراضية
-                const img = document.createElement('img');
-                img.src = 'i/Uselist.jpg'; // رابط الصورة الافتراضية
-                img.alt = `${friend.name}'s Avatar`; // تأكد من أن البيانات تحتوي على اسم الصديق
-                img.classList.add('friend-avatar');
+                if (friendError) {
+                    console.error(`Error fetching data for friend ${friendId}:`, friendError.message);
+                    return null;
+                }
 
-                // إضافة اسم الصديق
-                const span = document.createElement('span');
-                span.classList.add('friend-name');
-                span.textContent = friend.name; // تأكد من أن البيانات تحتوي على اسم الصديق
+                return friendData; // إرجاع البيانات الخاصة بالصديق
+            });
 
-                // إنشاء عنصر لعرض الرصيد
-                const balanceSpan = document.createElement('span');
-                balanceSpan.classList.add('friend-balance');
-                balanceSpan.textContent = `${friend.balance} XOcoins`; // عرض الرصيد (تأكد من أنه تم تضمينه في البيانات)
+            // الانتظار حتى يتم جلب جميع بيانات الأصدقاء
+            const friendsData = await Promise.all(friendsPromises);
 
-                // إنشاء div يحتوي على الصورة واسم الصديق
-                const friendInfoDiv = document.createElement('div');
-                friendInfoDiv.classList.add('friend-info');
-                friendInfoDiv.appendChild(img);
-                friendInfoDiv.appendChild(span);
+            // عرض الأصدقاء مع رصيدهم
+            friendsData.forEach((friend) => {
+                if (friend) {
+                    const li = document.createElement('li');
+                    li.classList.add('friend-item'); // إضافة الـ CSS
 
-                // إضافة الصورة واسم الصديق إلى الـ li
-                li.appendChild(friendInfoDiv);
+                    // إنشاء عنصر الصورة الافتراضية
+                    const img = document.createElement('img');
+                    img.src = 'i/Uselist.jpg'; // رابط الصورة الافتراضية
+                    img.alt = `${friend.telegram_id}'s Avatar`;
+                    img.classList.add('friend-avatar');
 
-                // إضافة الرصيد على اليمين
-                li.appendChild(balanceSpan);
+                    // إضافة معرّف الصديق
+                    const span = document.createElement('span');
+                    span.classList.add('friend-name');
+                    span.textContent = `ID: ${friend.telegram_id}`;
 
-                // إضافة الصديق إلى القائمة
-                uiElements.friendsListDisplay.appendChild(li);
+                    // إنشاء عنصر لعرض الرصيد
+                    const balanceSpan = document.createElement('span');
+                    balanceSpan.classList.add('friend-balance');
+                    balanceSpan.textContent = `${friend.balance} SP`; // عرض الرصيد
+
+                    // إنشاء div يحتوي على الصورة واسم الصديق
+                    const friendInfoDiv = document.createElement('div');
+                    friendInfoDiv.classList.add('friend-info');
+                    friendInfoDiv.appendChild(img);
+                    friendInfoDiv.appendChild(span);
+
+                    // إضافة الصورة واسم الصديق إلى الـ li
+                    li.appendChild(friendInfoDiv);
+
+                    // إضافة الرصيد على اليمين
+                    li.appendChild(balanceSpan);
+
+                    // إضافة الصديق إلى القائمة
+                    uiElements.friendsListDisplay.appendChild(li);
+                }
             });
 
             // تحديث العدد الإجمالي للأصدقاء
@@ -1120,6 +1142,7 @@ async function loadFriendsList() {
         uiElements.friendsListDisplay.innerHTML = `<li>Error: Unexpected issue occurred while loading friends.</li>`;
     }
 }
+
 
 
 
