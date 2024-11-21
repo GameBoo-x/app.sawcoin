@@ -1072,8 +1072,8 @@ async function loadFriendsList() {
 
                 // إنشاء عنصر الصورة الافتراضية
                 const img = document.createElement('img');
-                img.src = 'default-avatar.jpg'; // رابط الصورة الافتراضية
-                img.alt = `${friend}'s Avatar`;
+                img.src = 'i/Uselist.jpg'; // رابط الصورة الافتراضية
+                img.alt = `${friend}'s`;
                 img.classList.add('friend-avatar');
 
                 // إضافة اسم الصديق
