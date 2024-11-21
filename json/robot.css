@@ -1,10 +1,10 @@
 #robotContainer {
     position: relative;
     display: flex;
-    /*flex-direction: center;*/
-    justify-content: column; /* توزيع المساحة بين العناصر */
-    background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
-    backdrop-filter: blur(5px); /* تمويه الخلفية */
+    flex-direction: column; /* ترتيب العناصر عموديًا */
+    justify-content: flex-start; /* ترتيب العناصر في الأعلى */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
     border-radius: 10px;
     border: 0.50px solid #343434;
     padding: 5px;
@@ -12,32 +12,32 @@
     color: white;
     font-family: 'Arial', sans-serif;
     margin: 20px auto;
-    width: 90%; /* العرض الكلي للحاوية */
-    height: 120px;
+    width: 90%;
+    height: auto; /* اجعل الارتفاع يتناسب مع المحتوى */
 }
 
 #robotContainer img {
     text-align: center;
-    margin-right: 12px;
-    margin-left: 4px;
+    margin-bottom: 10px; /* إضافة مسافة بين الصورة والعناصر الأخرى */
     width: 40px;
-    height: 40px; /* لتحديد أبعاد متساوية */
-    border-radius: 10px; /* لإعطاء الصورة شكل دائري */
+    height: 40px;
+    border-radius: 10px;
     box-shadow: 0 0 3px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.3), 0 0 9px rgba(255, 255, 255, 0.2);
     transition: box-shadow 0.3s ease;
 }
 
 #robotContainer .robot-right {
-    flex: 2; /* إعطاء النصوص والأزرار مساحة أكبر */
+    flex: none; /* إزالة استخدام flex من هذا العنصر */
     text-align: center;
+    margin-bottom: 10px; /* إضافة مسافة بينه وبين العناصر الأخرى */
 }
 
 #robotContainer .robot-right p {
-    margin-left: 5px;
+    margin: 0; /* إزالة المسافة الزائدة */
 }
 
 #robotContainer button {
-    width: 30%;
+    width: 60%; /* زيادة العرض ليكون متناسبًا مع باقي المحتوى */
     height: 30px;
     background-color: rgba(0, 0, 0, 0.7);
     font-weight: bold;
@@ -47,6 +47,7 @@
     font-size: 0.6em;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 10px; /* إضافة مسافة بين الأزرار والعناصر الأخرى */
 }
 
 #robotContainer button:hover {
@@ -71,23 +72,18 @@
 .robot-meta {
     display: flex;
     flex-direction: row; /* ترتيب الليفيل والتكلفة أفقيًا */
-    justify-content: space-between; /* توزيع العناصر بالتساوي */
+    justify-content: space-between; /* ترتيب العناصر عموديًا */
     color: #808080;
-    font-size: 0.7em; /* حجم النص أصغر قليلاً */
-    margin-top: 1px;
-    margin-bottom: 10px; 
+    font-size: 0.7em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center; /* محاذاة النص في الوسط */
 }
 
-   /* font-size: 0.7em;
-    color: #808080;
-    text-align: center;
-}*/
-
-
 #text-robot {
-    color: #fff; /* لون النص */
-    font-size: 14px; /* حجم الخط */
-    margin-bottom: 18px; 
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 18px;
     margin-top: 5px;
     text-align: center;
 }
