@@ -5,10 +5,12 @@
   gap: 10px; /* إضافة مسافة بين الصورة والنص */
   font-weight: bold;
   font-size: 14px;
+  cursor: pointer;
+  
   border-radius: 10px;
   border-bottom: 0.50px solid #343434;
   background-color: rgba(0, 0, 0, 0.9);
-  width: 85%; 
+  width: 90%; 
   height: 60px;
 }
 
@@ -27,10 +29,12 @@
 .Daily-meta {
   display: flex;
   justify-content: flex-end; /* محاذاة السهم إلى اليمين */
-  
+  margin-top: 5px;  
+  margin-left: 15px;  
 }
 
 #Dailyaew {
+  text-align: right;
   font-size: 12px;
 }
 
