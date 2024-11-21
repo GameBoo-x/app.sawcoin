@@ -1065,13 +1065,32 @@ async function loadFriendsList() {
         // التأكد من أن الدعوات تخص المستخدم الحالي فقط
         if (data && data.invites && data.invites.length > 0) {
             uiElements.friendsListDisplay.innerHTML = ''; // مسح القائمة القديمة
+
             data.invites.forEach(friend => {
                 const li = document.createElement('li');
-                li.innerText = friend;
+                li.classList.add('friend-item'); // إضافة الـ CSS
+
+                // إنشاء عنصر الصورة الافتراضية
+                const img = document.createElement('img');
+                img.src = 'default-avatar.jpg'; // رابط الصورة الافتراضية
+                img.alt = `${friend}'s Avatar`;
+                img.classList.add('friend-avatar');
+
+                // إضافة اسم الصديق
+                const span = document.createElement('span');
+                span.classList.add('friend-name');
+                span.textContent = friend;
+
+                // إضافة الصورة والاسم إلى الـ li
+                li.appendChild(img);
+                li.appendChild(span);
+
+                // إضافة الصديق إلى القائمة
                 uiElements.friendsListDisplay.appendChild(li);
             });
-            
-        const invitedCountElement = document.getElementById('invitedCount');
+
+            // تحديث العدد الإجمالي للأصدقاء
+            const invitedCountElement = document.getElementById('invitedCount');
             if (invitedCountElement) {
                 invitedCountElement.innerText = data.invites.length; // عرض العدد الإجمالي للأصدقاء
             }
