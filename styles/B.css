@@ -41,6 +41,13 @@
     line-height: 1.5;
 }  
 
+#UpdateAttempts, #energyUpgradeCost {
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    color: #808080;
+}
 
 .bos-image {
    position: absolute; 
