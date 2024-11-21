@@ -2470,11 +2470,13 @@ document.addEventListener('DOMContentLoaded', handleInvite);
 
 //////////////////////////////////////////////////////////
 
+
+
 let autoClickAttempts = 2; // عدد المحاولات المتاحة يوميا
 let autoClickActive = false; // حالة النقر التلقائي
 
 // تحديد العنصر الذي سيتم النقر عليه
-const clickElement = document.querySelector('.clickableImg'); // استبدل بـ العنصر المطلوب
+const clickElement = document.getElementById('clickableImg'); // استبدل بـ العنصر المطلوب
 
 // دالة النقر التلقائي
 function startAutoClick() {
