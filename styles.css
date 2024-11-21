@@ -973,4 +973,16 @@ img {
     justify-content: center; /* ضمان توسيط المحتوى عموديًا */
     position: relative; 
 }
- 
+
+/* عند اكتشاف التصوير */
+.screenshot-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  display: none; /* نعرضها فقط عند التقاط screenshot */
+}
+
