@@ -2470,6 +2470,50 @@ document.addEventListener('DOMContentLoaded', handleInvite);
 
 //////////////////////////////////////////////////////////
 
+let autoClickAttempts = 2; // عدد المحاولات المتاحة يوميا
+let autoClickActive = false; // حالة النقر التلقائي
+
+// تحديد العنصر الذي سيتم النقر عليه
+const clickElement = document.querySelector('.clickableImg'); // استبدل بـ العنصر المطلوب
+
+// دالة النقر التلقائي
+function startAutoClick() {
+    if (autoClickAttempts > 0) {
+        autoClickActive = true;
+        autoClickAttempts--; // تقليل عدد المحاولات المتاحة
+        document.getElementById('UpdateAttempts').innerText = `${autoClickAttempts}/2`; // تحديث واجهة المستخدم
+
+        let clickInterval = setInterval(() => {
+            if (!autoClickActive) {
+                clearInterval(clickInterval);
+                return;
+            }
+
+            // محاكاة نقر عشوائي على العنصر
+            clickElement.click(); 
+
+            // إيقاف النقر التلقائي بعد دقيقة
+            setTimeout(() => {
+                clearInterval(clickInterval);
+                autoClickActive = false;
+                showNotification(uiElements.purchaseNotification, 'Auto-click session ended.');
+            }, 60 * 1000); // النقر كل ثانية لمدة دقيقة واحدة
+        }, Math.random() * (500 - 100) + 100); // تحديد الوقت العشوائي بين النقرات (من 100ms إلى 500ms)
+    } else {
+        showNotification(uiElements.purchaseNotification, 'You have no free auto-click attempts left for today.');
+    }
+}
+
+// الزر الخاص بتفعيل النقر التلقائي
+document.getElementById('free2').addEventListener('click', startAutoClick);
+
+// إشعار للمستخدم عند انتهاء الجلسة
+function showNotification(element, message) {
+    element.innerText = message;
+    setTimeout(() => {
+        element.innerText = '';
+    }, 5000); // إخفاء الرسالة بعد 5 ثواني
+}
 
 
 
