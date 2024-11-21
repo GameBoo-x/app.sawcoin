@@ -508,7 +508,8 @@ img {
     gap: 8px; /* مسافة بين الصورة والنص */
     width: 20%; 
     height: 60px;
-    background: linear-gradient(90deg, #343434, #1a1a1a); /* تدرج خلفية */
+    background-color: rgba(0, 0, 0, 1);
+    /*background: linear-gradient(90deg, #343434, #1a1a1a);*/
     /*background: #1c1c1c;*/
     color: #fff;
     border: 0.50px solid #343434; 
