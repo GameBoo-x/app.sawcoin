@@ -979,14 +979,8 @@ img {
 
 
 
-
-
-
-
-
-
 #invitedCount {
-    color: #c0c0c0;
+    color: #fff;
 }
 
 /*.friends-list {
@@ -1008,7 +1002,7 @@ img {
 }
 
 .friend-item:hover {
-    background-color: #c0c0c0;
+    background-color: #1a1a1a;
 }
 
 .friend-info {
