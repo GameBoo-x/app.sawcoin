@@ -90,6 +90,7 @@ let gameState = {
     tasksprogress: [],
     completedTasks: [],
     puzzlesprogress:[], 
+    caesarPuzzleProgress:[], 
     usedPromoCodes: [],
     ciphersProgress:[],
     lastLoginDate: null, // تاريخ آخر تسجيل دخول
@@ -180,6 +181,7 @@ async function saveGameState() {
         last_login_date: gameState.lastLoginDate ? new Date(gameState.lastLoginDate).toISOString() : null,
         consecutive_days: gameState.consecutiveDays,
         achieved_Levels: gameState.achievedLevels,
+        caesar_puzzles_progress: gameState.caesarPuzzleProgress, 
         
         robot_level: gameState.robotLevel, // مستوى الروبوت
         robot_active: gameState.robotActive, // حالة الروبوت
@@ -1132,7 +1134,8 @@ async function updateUserData() {
             achieved_Levels: gameState.achievedLevels, 
             last_login_date: gameState.lastLoginDate ? new Date(gameState.lastLoginDate).toISOString() : null,
             consecutive_days: gameState.consecutiveDays, 
-            
+            caesar_puzzles_progress: gameState.caesarPuzzleProgress, 
+     
             robot_level: gameState.robotLevel, // مستوى الروبوت
             robot_active: gameState.robotActive, // حالة الروبوت
             robot_click_value: gameState.robotClickValue
