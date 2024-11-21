@@ -348,17 +348,18 @@
            </div>
 
           
-             <div id="CaesarContainer" class="hidden">
-               <div class="Caesar-content">
-                <h3 id="CaesarQuestion">Loading Caesar Cipher puzzle...</h3>
-                 <p id="CaesarCipherDisplay">Cipher: </p> 
-                  <p id="CaesarShiftDisplay">Shift: </p> 
-                   <input type="text" id="CaesarSolutionInput" placeholder="Enter your solution">
-                    <button id="CaesarSubmitBtn">Submit</button>
-                    <p id="CaesarRewardDisplay">Reward: </p>
-                     <p id="CaesarAttemptsDisplay">Attempts left: 3</p>
-                     <p id="CaesarCountdownDisplay" class="hidden">Next puzzle available in: </p>
-                 </div>
+             <div id="caesarPuzzleContainer" class="hidden">
+              <div class="Caesar-content">
+               <h2 id="caesarPuzzleQuestion"></h2>
+                 <p id="caesarPuzzleHint"></p>
+                 <p id="caesarPuzzleRewardDisplay"></p>
+                  <input type="text" id="userCaesarAnswerInput" placeholder="Enter your answer">
+                  <button id="caesarSubmitBtn">Submit</button>
+                   <p id="caesarTimer">00:00:00</p>
+                   <p id="caesarAttemptsDisplay">Remaining Attempts: 3</p>
+                   <div id="caesarPuzzleNotification" class="notification hidden"></div>
+                   <button id="caesarPuzzle1">Open Puzzle</button>
+               </div>
              </div>
 
              <!-- Puzzle Container -->
