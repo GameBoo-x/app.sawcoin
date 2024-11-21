@@ -2474,37 +2474,37 @@ document.addEventListener('DOMContentLoaded', handleInvite);
 
 
 // تعريف عناصر DOM
-const caesarPuzzleCloseModal = document.getElementById('caesarPuzzleCloseModal');
-const caesarPuzzleCountdown = document.getElementById('caesarPuzzleCountdown');
-const caesarPuzzleContainer = document.getElementById('caesarPuzzleContainer');
-const openCaesarPuzzleBtn = document.getElementById('Puzzle3');
-const caesarPuzzleQuestion = document.getElementById('caesarPuzzleQuestion');
-const caesarPuzzleOptions = document.getElementById('caesarPuzzleOptions');
-const caesarPuzzleNotification = document.getElementById('caesarPuzzleNotification');
-const caesarPuzzleHint = document.getElementById('caesarPuzzleHint');
-const caesarTimerDisplay = document.getElementById('caesarTimer');
-const remainingCaesarAttemptsDisplay = document.getElementById('caesarAttemptsDisplay');
-const caesarPuzzleRewardDisplay = document.getElementById('caesarPuzzleRewardDisplay');
+const CaesarpuzzlecloseModal = document.getElementById('CaesarpuzzlecloseModal');
+const CaesarpuzzleCountdown = document.getElementById('CaesarpuzzleCountdown');
+const CaesarpuzzleContainer = document.getElementById('CaesarpuzzleContainer');
+const CaesaropenPuzzleBtn = document.getElementById('puzzle3');
+const CaesarpuzzleQuestion = document.getElementById('CaesarpuzzleQuestion');
+const CaesarpuzzleOptions = document.getElementById('CaesarpuzzleOptions');
+const CaesarpuzzleNotification = document.getElementById('CaesarpuzzleNotification');
+const puzzleHint = document.getElementById('CaesarpuzzleHint');
+const CaesartimerDisplay = document.getElementById('Caesartimer');
+const CaesarremainingAttemptsDisplay = document.getElementById('CaesarattemptsDisplay');
+const CaesarpuzzleRewardDisplay = document.getElementById('CaesarpuzzleRewardDisplay');
 
 // تعريف حالة اللعبة
-let currentCaesarPuzzle;
-let attempts = 0;
-let caesarPuzzleSolved = false;
-let caesarCountdownInterval;
-const maxCaesarAttempts = 3; // أقصى عدد للمحاولات
-const penaltyAmount = 500; // العقوبة عند الإجابة الخاطئة
-const caesarCountdownDuration = 24 * 60 * 60 * 1000; // 24 ساعة بالميلي ثانية
+let CaesarcurrentPuzzle;
+let Caesarattempts = 0;
+let CaesarpuzzleSolved = false;
+let CaesarcountdownInterval;
+const CaesarmaxAttempts = 3; // أقصى عدد للمحاولات
+const CaesarpenaltyAmount = 500; // العقوبة عند الإجابة الخاطئة
+const CaesarcountdownDuration = 24 * 60 * 60 * 1000; // 24 ساعة بالميلي ثانية
 
 // تحميل الأحاجي من ملف JSON
-async function loadCaesarPuzzles() {
+async function loadPuzzles() {
     try {
-        const response = await fetch('json/caesar_puzzles.json');
-        if (!response.ok) throw new Error('Failed to load caesar puzzles');
+        const response = await fetch('json/Caesar_puzzles.json');
+        if (!response.ok) throw new Error('Failed to load puzzles');
         const data = await response.json();
         return data.puzzles;
     } catch (error) {
         console.error(error);
-        showNotificationWithStatus(caesarPuzzleNotification, 'Error loading puzzle. Please try again later.', 'lose');
+        showNotificationWithStatus(CaesarpuzzleNotification, 'Error loading puzzle. Please try again later.', 'lose');
     }
 }
 
@@ -2516,31 +2516,31 @@ function getTodaysCaesarPuzzle(puzzles) {
 
 // عرض مؤقت العد التنازلي في العنصر المخصص
 function startCaesarCountdownOnButton(seconds) {
-    openCaesarPuzzleBtn.disabled = true;
+    CaesaropenPuzzleBtn.disabled = true;
 
-    // عرض العد التنازلي في العنصر caesarPuzzleCountdown
-    const countdownDisplay = document.getElementById('caesarPuzzleCountdown');
-    countdownDisplay.innerText = ` ${formatTime(seconds)}`;
+    // عرض العد التنازلي في العنصر CaesarpuzzleCountdown
+    const CaesarcountdownDisplay = document.getElementById('puzzleCountdownCaesar');
+    CaesarcountdownDisplay.innerText = ` ${formatTime(seconds)}`;
 
     // استهداف العنصر المحدد فقط باستخدام الـ ID
-    const puzzleItem = document.getElementById('caesarPuzzle1'); // استهداف العنصر حسب ID
+    const puzzleItem = document.getElementById('puzzle3'); // استهداف العنصر حسب ID
     puzzleItem.classList.add('inactive'); // إضافة الفئة "inactive" لتفعيل تأثير الضباب والتوهج
 
     function updateCaesarCountdown() {
         if (seconds > 0) {
             seconds--;
-            countdownDisplay.innerText = ` ${formatTime(seconds)}`;
+            CaesarcountdownDisplay.innerText = ` ${formatTime(seconds)}`;
             setTimeout(updateCaesarCountdown, 1000);
         } else {
             // عند انتهاء الوقت، إزالة التأثيرات
-            countdownDisplay.innerText = 'Puzzle available now!';
+            CaesarcountdownDisplay.innerText = 'Puzzle available now!';
 
             // إزالة الفئة "inactive" وإضافة الفئة "active"
             puzzleItem.classList.remove('inactive'); // إزالة الفئة "inactive"
             puzzleItem.classList.add('active'); // إضافة الفئة "active"
 
-            openCaesarPuzzleBtn.disabled = false;
-            openCaesarPuzzleBtn.innerText = 'Open Puzzle';
+            CaesaropenPuzzleBtn.disabled = false;
+            CaesaropenPuzzleBtn.innerText = 'Open Puzzle';
         }
     }
 
@@ -2557,87 +2557,87 @@ function formatTime(seconds) {
 
 // عرض أحجية اليوم إذا كانت متاحة
 async function displayTodaysCaesarPuzzle() {
-    const puzzles = await loadCaesarPuzzles();
-    currentCaesarPuzzle = getTodaysCaesarPuzzle(puzzles);
+    const puzzles = await loadPuzzles();
+    CaesarcurrentPuzzle = getTodaysCaesarPuzzle(puzzles);
     const userTelegramId = uiElements.userTelegramIdDisplay.innerText;
 
     // جلب تقدم المستخدم من قاعدة البيانات
     const { data, error } = await supabase
         .from('users')
-        .select('caesar_puzzles_progress')
+        .select('Caesar_puzzles_progress')
         .eq('telegram_id', userTelegramId)
         .maybeSingle();
 
     if (error) {
-        console.error('Error fetching caesar puzzle progress:', error);
-        showNotification(caesarPuzzleNotification, 'Error loading puzzle progress. Please try again later.');
+        console.error('Error fetching puzzle progress:', error);
+        showNotification(CaesarpuzzleNotification, 'Error loading puzzle progress. Please try again later.');
         return;
     }
 
-    const caesarPuzzlesProgress = data?.caesar_puzzles_progress || {};
-    const caesarPuzzleProgress = caesarPuzzlesProgress[currentCaesarPuzzle.id];
+    const CaesarpuzzlesProgress = data?.Caesar_puzzles_progress || {};
+    const CaesarpuzzleProgress =  CaesarpuzzlesProgress[CaesarcurrentPuzzle.id];
 
     // التحقق من انتهاء العد التنازلي لمدة 24 ساعة من قاعدة البيانات
-    const lastSolvedTime = caesarPuzzleProgress?.last_solved_time;
-    if (lastSolvedTime) {
-        const timeElapsed = Date.now() - new Date(lastSolvedTime).getTime();
-        if (timeElapsed < caesarCountdownDuration) {
-            const remainingSeconds = Math.floor((caesarCountdownDuration - timeElapsed) / 1000);
+    const lastCaesarSolvedTime = CaesarpuzzleProgress?.last_solved_time;
+    if (lastCaesarSolvedTime) {
+        const timeElapsed = Date.now() - new Date(lastCaesarSolvedTime).getTime();
+        if (timeElapsed < CaesarcountdownDuration) {
+            const remainingSeconds = Math.floor((CaesarcountdownDuration - timeElapsed) / 1000);
             startCaesarCountdownOnButton(remainingSeconds);
             return;
         }
     }
 
     // عرض السؤال والتلميح والمكافأة
-    caesarPuzzleQuestion.innerText = currentCaesarPuzzle.question;
-    caesarPuzzleHint.innerText = `Hint : ${currentCaesarPuzzle.hint}`;
-    caesarPuzzleRewardDisplay.innerText = `Reward : ${currentCaesarPuzzle.reward} coins`;
+    CaesarpuzzleQuestion.innerText = CaesarcurrentPuzzle.question;
+    puzzleHint.innerText = `Hint : ${CaesarcurrentPuzzle.hint}`;
+    CaesarpuzzleRewardDisplay.innerText = `Reward : ${CaesarcurrentPuzzle.reward} coins`;
 
     // عرض الخيارات كأزرار
-    const optionsHtml = currentCaesarPuzzle.options.map(option => `<button class="option-btn">${option}</button>`).join('');
-    caesarPuzzleOptions.innerHTML = optionsHtml;
+    const optionsHtml = CaesarcurrentPuzzle.options.map(option => `<button class="option-btn">${option}</button>`).join('');
+    CaesarpuzzleOptions.innerHTML = optionsHtml;
 
-    caesarPuzzleContainer.classList.remove('hidden');
-    updateRemainingCaesarAttempts(caesarPuzzleProgress?.attempts || 0);
+    CaesarpuzzleContainer.classList.remove('hidden');
+    updateRemainingAttempts(CaesarpuzzleProgress?.attempts || 0);
     startCaesarCountdown();
 }
 
 // تشغيل المؤقت
 function startCaesarCountdown() {
     let timeLeft = 60.00;
-    caesarTimerDisplay.innerText = timeLeft.toFixed(2);
+    CaesartimerDisplay.innerText = timeLeft.toFixed(2);
 
-    caesarCountdownInterval = setInterval(() => {
+    CaesarcountdownInterval = setInterval(() => {
         timeLeft -= 0.01;
-        caesarTimerDisplay.innerText = timeLeft.toFixed(2);
+        CaesartimerDisplay.innerText = timeLeft.toFixed(2);
 
         if (timeLeft <= 0) {
-            clearInterval(caesarCountdownInterval);
-            handleCaesarPuzzleTimeout();
+            clearInterval(CaesarcountdownInterval);
+            handlePuzzleTimeout();
         }
     }, 10);
 }
 
 // التعامل مع انتهاء الوقت
-function handleCaesarPuzzleTimeout() {
-    clearInterval(caesarCountdownInterval);
-    showNotificationWithStatus(caesarPuzzleNotification, "Time's up! You failed to solve the puzzle.", 'lose');
-    updateBalance(-penaltyAmount); // خصم العقوبة
-    updateCaesarPuzzleProgressInDatabase(currentCaesarPuzzle.id, false, maxCaesarAttempts); // تحديث التقدم
+function handlePuzzleTimeout() {
+    clearInterval(CaesarcountdownInterval);
+    showNotificationWithStatus(CaesarpuzzleNotification, "Time's up! You failed to solve the puzzle.", 'lose');
+    updateBalance(-CaesarpenaltyAmount); // خصم العقوبة
+    updatePuzzleProgressInDatabase(CaesarcurrentPuzzle.id, false, CaesarmaxAttempts); // تحديث التقدم
     startCaesarCountdownOnButton(24 * 60 * 60); // بدء العد التنازلي لعرض أحجية اليوم التالي
-    closeCaesarPuzzle();
+    closePuzzle();
 }
 
 // التحقق من إجابة المستخدم
-function checkCaesarPuzzleAnswer(selectedOption) {
+function checkPuzzleAnswer(selectedOption) {
     const userAnswer = selectedOption.innerText.trim();
 
-    if (attempts >= maxCaesarAttempts || caesarPuzzleSolved) {
-        showNotification(caesarPuzzleNotification, 'You have already solved or failed today\'s puzzle.');
+    if (Caesarattempts >= CaesarmaxAttempts || CaesarpuzzleSolved) {
+        showNotification(CaesarpuzzleNotification, 'You have already solved or failed today\'s puzzle.');
         return;
     }
 
-    if (userAnswer === currentCaesarPuzzle.answer) {
+    if (userAnswer === CaesarcurrentPuzzle.answer) {
         handleCaesarPuzzleSuccess();
     } else {
         handleCaesarPuzzleWrongAnswer();
@@ -2646,49 +2646,50 @@ function checkCaesarPuzzleAnswer(selectedOption) {
 
 // التعامل مع الإجابة الصحيحة
 function handleCaesarPuzzleSuccess() {
-    clearInterval(caesarCountdownInterval);
+    clearInterval(CaesarcountdownInterval);
 
-    const puzzleReward = currentCaesarPuzzle.reward;
-    showNotificationWithStatus(caesarPuzzleNotification, `Correct! You've earned ${puzzleReward} coins.`, 'win');
+    const puzzleReward = CaesarcurrentPuzzle.reward;
+    showNotificationWithStatus(CaesarpuzzleNotification, `Correct! You've earned ${puzzleReward} coins.`, 'win');
     updateBalance(puzzleReward);
 
-    updateCaesarPuzzleProgressInDatabase(currentCaesarPuzzle.id, true, attempts); // تحديث التقدم في قاعدة البيانات
+    updatePuzzleProgressInDatabase(CaesarcurrentPuzzle.id, true, Caesarattempts); // تحديث التقدم في قاعدة البيانات
 
-    caesarPuzzleSolved = true;
+    CaesarpuzzleSolved = true;
     document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
     startCaesarCountdownOnButton(24 * 60 * 60); // بدء العد التنازلي لعرض أحجية اليوم التالي
 }
 
 // التعامل مع الإجابة الخاطئة
 function handleCaesarPuzzleWrongAnswer() {
-    attempts++;
-    updateRemainingCaesarAttempts(attempts);
+    Caesarattempts++;
+    updateRemainingAttempts(Caesarattempts);
 
-    if (attempts === maxCaesarAttempts) {
-        clearInterval(caesarCountdownInterval);
-        showNotification(caesarPuzzleNotification, 'You have used all attempts. 500 coins have been deducted.');
-        updateBalance(-penaltyAmount);
-        updateCaesarPuzzleProgressInDatabase(currentCaesarPuzzle.id, false, maxCaesarAttempts); // تسجيل المحاولة الفاشلة
+    if (Caesarattempts === CaesarmaxAttempts) {
+        clearInterval(CaesarcountdownInterval);
+        showNotification(CaesarpuzzleNotification, 'You have used all attempts. 500 coins have been deducted.');
+        updateBalance(-CaesarpenaltyAmount);
+        updatePuzzleProgressInDatabase(CaesarcurrentPuzzle.id, false, CaesarmaxAttempts); // تسجيل المحاولة الفاشلة
         startCaesarCountdownOnButton(24 * 60 * 60); // بدء العد التنازلي
-        closeCaesarPuzzle();
+        closePuzzle();
     } else {
-        showNotification(caesarPuzzleNotification, `Wrong answer. You have ${maxCaesarAttempts - attempts} attempts remaining.`);
+        showNotification(CaesarpuzzleNotification, `Wrong answer. You have ${CaesarmaxAttempts - Caesarattempts} attempts remaining.`);
     }
 }
 
 // تحديث تقدم الأحجية في قاعدة البيانات
-async function updateCaesarPuzzleProgressInDatabase(puzzleId, solved, attempts) {
+async function updatePuzzleProgressInDatabase(puzzleId, solved, attempts) {
     const userTelegramId = uiElements.userTelegramIdDisplay.innerText;
 
     const { data, error } = await supabase
         .from('users')
         .upsert({
             telegram_id: userTelegramId,
-            caesar_puzzles_progress: {
+            Caesar_puzzles_progress: {
+                ...CaesarpuzzlesProgress,
                 [puzzleId]: {
                     last_solved_time: solved ? new Date().toISOString() : null,
-                    attempts: attempts || 0,
-                    solved: solved
+                    attempts,
+                    solved
                 }
             }
         });
@@ -2698,19 +2699,19 @@ async function updateCaesarPuzzleProgressInDatabase(puzzleId, solved, attempts) 
     }
 }
 
-// عرض رسالة إشعار
-function showNotification(notificationElement, message, status = 'default') {
-    notificationElement.innerText = message;
-    notificationElement.classList.add(status);
-    notificationElement.classList.remove('hidden');
+// عرض إشعار الحالة مع الرسائل
+function showNotificationWithStatus(element, message, status) {
+    element.innerText = message;
+    element.className = `notification ${status}`;
+    setTimeout(() => {
+        element.classList.remove(status);
+    }, 5000);
 }
 
 // إغلاق الأحجية
-function closeCaesarPuzzle() {
-    caesarPuzzleContainer.classList.add('hidden');
-    clearInterval(caesarCountdownInterval);
+function closePuzzle() {
+    CaesarpuzzleContainer.classList.add('hidden');
 }
-
 
 
 
