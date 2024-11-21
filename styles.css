@@ -490,7 +490,7 @@ img {
 
 
 .invite-more:hover {
-    background: linear-gradient(90deg, #562a04, #794106, #9f620c, #d69a1c);
+    background: linear-gradient(90deg, #343434, #1a1a1a);
 } 
 
 #inviteInfo {
@@ -523,7 +523,7 @@ img {
 } 
 
 .invite-copy:hover {
-   background: linear-gradient(90deg, #562a04, #794106, #9f620c, #d69a1c);
+   background: linear-gradient(90deg, #343434, #1a1a1a);
 } 
 
 .invite-icon {
