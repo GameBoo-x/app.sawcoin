@@ -5,6 +5,11 @@
   gap: 10px; /* إضافة مسافة بين الصورة والنص */
   font-weight: bold;
   font-size: 14px;
+  border-radius: 10px;
+  border-bottom: 0.50px solid #343434;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 85%; 
+  height: 60px;
 }
 
 .daily-imagee {
