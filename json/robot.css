@@ -1,6 +1,7 @@
 #robotContainer {
     position: relative;
     display: flex;
+    flex-direction: center;
     align-items: center; /* محاذاة العناصر رأسيًا */
     justify-content: column; /* توزيع المساحة بين العناصر */
     background: rgba(255, 255, 255, 0.1); /* خلفية شفافة */
@@ -13,7 +14,7 @@
     font-family: 'Arial', sans-serif;
     margin: 20px auto;
     width: 90%; /* العرض الكلي للحاوية */
-    height: 80px;
+    height: 110px;
 }
 
 #robotContainer img {
