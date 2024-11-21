@@ -1,28 +1,32 @@
-.daily-item {
+.daily-itemm {
   display: flex;
   align-items: center; /* محاذاة العناصر عموديًا */
   justify-content: flex-start; /* المحاذاة على اليسار */
   gap: 10px; /* إضافة مسافة بين الصورة والنص */
+  font-weight: bold;
+  font-size: 14px;
 }
 
-.daily-image {
-  width: 50px; /* يمكنك تغيير الحجم حسب الحاجة */
-  height: 50px;
+.daily-imagee {
+  width: 40px; /* يمكنك تغيير الحجم حسب الحاجة */
+  height: 40px;
 }
 
-.description {
+.descriptionn {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
 }
 
 .Daily-meta {
   display: flex;
   justify-content: flex-end; /* محاذاة السهم إلى اليمين */
+  
 }
 
 #Dailyaew {
-  font-size: 24px;
+  font-size: 12px;
 }
 
 
