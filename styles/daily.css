@@ -1,3 +1,33 @@
+.daily-item {
+  display: flex;
+  align-items: center; /* محاذاة العناصر عموديًا */
+  justify-content: flex-start; /* المحاذاة على اليسار */
+  gap: 10px; /* إضافة مسافة بين الصورة والنص */
+}
+
+.daily-image {
+  width: 50px; /* يمكنك تغيير الحجم حسب الحاجة */
+  height: 50px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Daily-meta {
+  display: flex;
+  justify-content: flex-end; /* محاذاة السهم إلى اليمين */
+}
+
+#Dailyaew {
+  font-size: 24px;
+}
+
+
+
+
 .daily-item.claimed {
     opacity: 0.6;
     filter: blur(2px);
