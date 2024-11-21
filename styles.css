@@ -987,3 +987,41 @@ img {
   display: none; /* نعرضها فقط عند التقاط screenshot */
 }
 
+
+
+
+
+
+
+
+
+#invitedCount {
+    color: #4caf50; /* لتلوين العدد بلون مميز */
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    background-color: #2c2c2c;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.friend-item:hover {
+    background-color: #3b3b3b;
+}
+
+.friend-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.friend-name {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+}
