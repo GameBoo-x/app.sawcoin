@@ -2465,12 +2465,290 @@ function rewardReferral(referrerId, invitedId) {
 // استدعاء الدالة عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', handleInvite);
 
-
-
-
-
-
 //////////////////////////////////////////////////////////
+
+
+
+// تعريف عناصر DOM
+const caesarPuzzleCloseModal = document.getElementById('caesarPuzzleCloseModal');
+const caesarPuzzleCountdown = document.getElementById('caesarPuzzleCountdown');
+const caesarPuzzleContainer = document.getElementById('caesarPuzzleContainer');
+const openCaesarPuzzleBtn = document.getElementById('Puzzle3');
+const caesarPuzzleQuestion = document.getElementById('caesarPuzzleQuestion');
+const caesarPuzzleNotification = document.getElementById('caesarPuzzleNotification');
+const caesarPuzzleHint = document.getElementById('caesarPuzzleHint');
+const caesarTimerDisplay = document.getElementById('caesarTimer');
+const remainingCaesarAttemptsDisplay = document.getElementById('caesarAttemptsDisplay');
+const caesarPuzzleRewardDisplay = document.getElementById('caesarPuzzleRewardDisplay');
+const userCaesarAnswerInput = document.getElementById('userCaesarAnswerInput'); // حقل إدخال الإجابة
+const caesarSubmitBtn = document.getElementById('caesarSubmitBtn'); // زر الإرسال
+
+// تعريف حالة اللعبة
+let currentCaesarPuzzle;
+let attempts = 0;
+let caesarPuzzleSolved = false;
+let countdownInterval;
+const maxCaesarAttempts = 3; // أقصى عدد للمحاولات
+const penaltyAmount = 500; // العقوبة عند الإجابة الخاطئة
+const countdownDuration = 24 * 60 * 60 * 1000; // 24 ساعة بالميلي ثانية
+
+// تحميل الأحاجي من ملف JSON
+async function loadCaesarPuzzles() {
+    try {
+        const response = await fetch('json/caesar_puzzles.json');
+        if (!response.ok) throw new Error('Failed to load Caesar puzzles');
+        const data = await response.json();
+        return data.puzzles;
+    } catch (error) {
+        console.error(error);
+        showNotificationWithStatus(caesarPuzzleNotification, 'Error loading puzzle. Please try again later.', 'lose');
+    }
+}
+
+// اختيار أحجية اليوم بناءً على التاريخ
+function getTodaysCaesarPuzzle(puzzles) {
+    const today = new Date().toDateString();
+    return puzzles.find(p => new Date(p.availableDate).toDateString() === today);
+}
+
+// عرض مؤقت العد التنازلي في العنصر المخصص
+function startCaesarCountdownOnButton(seconds) {
+    openCaesarPuzzleBtn.disabled = true;
+
+    // عرض العد التنازلي في العنصر caesarPuzzleCountdown
+    const countdownDisplay = document.getElementById('caesarPuzzleCountdown');
+    countdownDisplay.innerText = ` ${formatTime(seconds)}`;
+
+    const caesarPuzzleItem = document.getElementById('caesarPuzzle1'); 
+    caesarPuzzleItem.classList.add('inactive');
+
+    function updateCountdown() {
+        if (seconds > 0) {
+            seconds--;
+            countdownDisplay.innerText = ` ${formatTime(seconds)}`;
+            setTimeout(updateCountdown, 1000);
+        } else {
+            countdownDisplay.innerText = 'Puzzle available now!';
+            caesarPuzzleItem.classList.remove('inactive');
+            caesarPuzzleItem.classList.add('active');
+            openCaesarPuzzleBtn.disabled = false;
+            openCaesarPuzzleBtn.innerText = 'Open Puzzle';
+        }
+    }
+
+    updateCountdown();
+}
+
+// صياغة الوقت (الساعات:الدقائق:الثواني)
+function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// عرض أحجية اليوم إذا كانت متاحة
+async function displayTodaysCaesarPuzzle() {
+    const puzzles = await loadCaesarPuzzles();
+    currentCaesarPuzzle = getTodaysCaesarPuzzle(puzzles);
+    const userTelegramId = uiElements.userTelegramIdDisplay.innerText;
+
+    const { data, error } = await supabase
+        .from('users')
+        .select('caesar_puzzles_progress')
+        .eq('telegram_id', userTelegramId)
+        .maybeSingle();
+
+    if (error) {
+        console.error('Error fetching puzzle progress:', error);
+        showNotification(caesarPuzzleNotification, 'Error loading puzzle progress. Please try again later.');
+        return;
+    }
+
+    const puzzlesProgress = data?.caesar_puzzles_progress || {};
+    const puzzleProgress = puzzlesProgress[currentCaesarPuzzle.id];
+
+    const lastSolvedTime = puzzleProgress?.last_solved_time;
+    if (lastSolvedTime) {
+        const timeElapsed = Date.now() - new Date(lastSolvedTime).getTime();
+        if (timeElapsed < countdownDuration) {
+            const remainingSeconds = Math.floor((countdownDuration - timeElapsed) / 1000);
+            startCaesarCountdownOnButton(remainingSeconds);
+            return;
+        }
+    }
+
+    // عرض السؤال والتلميح والمكافأة
+    caesarPuzzleQuestion.innerText = currentCaesarPuzzle.question;
+    caesarPuzzleHint.innerText = `Hint: ${currentCaesarPuzzle.hint}`;
+    caesarPuzzleRewardDisplay.innerText = `Reward: ${currentCaesarPuzzle.reward} coins`;
+
+    caesarPuzzleContainer.classList.remove('hidden');
+    updateRemainingCaesarAttempts(puzzleProgress?.attempts || 0);
+    startCaesarCountdown();
+}
+
+// تشغيل المؤقت
+function startCaesarCountdown() {
+    let timeLeft = 60.00;
+    caesarTimerDisplay.innerText = timeLeft.toFixed(2);
+
+    countdownInterval = setInterval(() => {
+        timeLeft -= 0.01;
+        caesarTimerDisplay.innerText = timeLeft.toFixed(2);
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            handleCaesarPuzzleTimeout();
+        }
+    }, 10);
+}
+
+// التعامل مع انتهاء الوقت
+function handleCaesarPuzzleTimeout() {
+    clearInterval(countdownInterval);
+    showNotificationWithStatus(caesarPuzzleNotification, "Time's up! You failed to solve the puzzle.", 'lose');
+    updateBalance(-penaltyAmount);
+    updateCaesarPuzzleProgressInDatabase(currentCaesarPuzzle.id, false, maxCaesarAttempts);
+    startCaesarCountdownOnButton(24 * 60 * 60);
+    closeCaesarPuzzle();
+}
+
+// التحقق من إجابة المستخدم (شيفرة قيصر)
+function checkCaesarPuzzleAnswer() {
+    const userAnswer = userCaesarAnswerInput.value.trim();
+
+    if (attempts >= maxCaesarAttempts || caesarPuzzleSolved) {
+        showNotification(caesarPuzzleNotification, 'You have already solved or failed today\'s puzzle.');
+        return;
+    }
+
+    if (userAnswer === '') {
+        showNotification(caesarPuzzleNotification, 'Please enter an answer before submitting.');
+        return;
+    }
+
+    const caesarShift = currentCaesarPuzzle.shift;
+    const decryptedAnswer = decryptCaesarCipher(currentCaesarPuzzle.answer, caesarShift);
+
+    if (userAnswer === decryptedAnswer) {
+        handleCaesarPuzzleSuccess();
+    } else {
+        handleCaesarPuzzleWrongAnswer();
+    }
+}
+
+// خوارزمية فك شيفرة قيصر
+function decryptCaesarCipher(text, shift) {
+    return text.split('').map(char => {
+        if (/[a-zA-Z]/.test(char)) {
+            const code = char.charCodeAt(0);
+            const base = (char === char.toLowerCase()) ? 97 : 65;
+            return String.fromCharCode((code - base - shift + 26) % 26 + base);
+        }
+        return char;
+    }).join('');
+}
+
+// التعامل مع الإجابة الصحيحة
+function handleCaesarPuzzleSuccess() {
+    clearInterval(countdownInterval);
+
+    const caesarPuzzleReward = currentCaesarPuzzle.reward;
+    showNotificationWithStatus(caesarPuzzleNotification, `Correct! You've earned ${caesarPuzzleReward} coins.`, 'win');
+    updateBalance(caesarPuzzleReward);
+
+    updateCaesarPuzzleProgressInDatabase(currentCaesarPuzzle.id, true, attempts);
+
+    caesarPuzzleSolved = true;
+    userCaesarAnswerInput.disabled = true;
+    caesarSubmitBtn.disabled = true;
+    startCaesarCountdownOnButton(24 * 60 * 60);
+}
+
+// التعامل مع الإجابة الخاطئة
+function handleCaesarPuzzleWrongAnswer() {
+    attempts++;
+    updateRemainingCaesarAttempts(attempts);
+
+    if (attempts === maxCaesarAttempts) {
+        clearInterval(countdownInterval);
+        showNotification(caesarPuzzleNotification, 'You have used all attempts. 500 coins have been deducted.');
+        updateBalance(-penaltyAmount);
+        updateCaesarPuzzleProgressInDatabase(currentCaesarPuzzle.id, false, maxCaesarAttempts);
+        startCaesarCountdownOnButton(24 * 60 * 60);
+        closeCaesarPuzzle();
+    } else {
+        showNotification(caesarPuzzleNotification, `Wrong answer. You have ${maxCaesarAttempts - attempts} attempts remaining.`);
+    }
+}
+
+// تحديث تقدم الأحجية في قاعدة البيانات
+async function updateCaesarPuzzleProgressInDatabase(puzzleId, solved, attempts) {
+    const userTelegramId = uiElements.userTelegramIdDisplay.innerText;
+
+    const { data, error } = await supabase
+        .from('users')
+        .select('caesar_puzzles_progress')
+        .eq('telegram_id', userTelegramId)
+        .maybeSingle();
+
+    if (error) {
+        console.error('Error updating puzzle progress:', error);
+        return;
+    }
+
+    const puzzlesProgress = data?.caesar_puzzles_progress || {};
+    puzzlesProgress[puzzleId] = { solved, attempts, last_solved_time: solved ? new Date().toISOString() : null };
+
+    const { error: updateError } = await supabase
+        .from('users')
+        .update({ caesar_puzzles_progress: puzzlesProgress })
+        .eq('telegram_id', userTelegramId);
+
+    if (updateError) {
+        console.error('Error updating progress:', updateError);
+    }
+}
+
+// تحديث عدد المحاولات المتبقية في واجهة المستخدم
+function updateRemainingCaesarAttempts(attempts) {
+    remainingCaesarAttemptsDisplay.innerText = `Remaining Attempts: ${maxCaesarAttempts - attempts}`;
+}
+
+// عرض إشعار مع الحالة
+function showNotificationWithStatus(notificationElement, message, status) {
+    notificationElement.innerText = message;
+    notificationElement.className = `notification ${status}`;
+    notificationElement.classList.remove('hidden');
+}
+
+// إغلاق الأحجية
+function closeCaesarPuzzle() {
+    caesarPuzzleContainer.classList.add('hidden');
+    userCaesarAnswerInput.value = ''; // مسح الإجابة بعد محاولة
+    userCaesarAnswerInput.disabled = false;
+    caesarSubmitBtn.disabled = false;
+}
+
+// ربط زر الإرسال بالتحقق من الإجابة
+caesarSubmitBtn.addEventListener('click', checkCaesarPuzzleAnswer);
+
+// عرض الأحجية عند فتح الزر
+openCaesarPuzzleBtn.addEventListener('click', displayTodaysCaesarPuzzle);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
